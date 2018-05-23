@@ -1,0 +1,17 @@
+FROM openjdk:8
+
+COPY BusyApp.java /BusyApp.java
+RUN javac BusyApp.java
+
+ENV JMX_HOST=jvmapp
+ENV JMX_PORT=4000
+
+CMD java \
+  -Djava.rmi.server.hostname=$JMX_HOST \
+  -Dcom.sun.management.jmxremote \
+  -Dcom.sun.management.jmxremote.port=$JMX_PORT \
+  -Dcom.sun.management.jmxremote.rmi.port=$JMX_PORT \
+  -Dcom.sun.management.jmxremote.local.only=false \
+  -Dcom.sun.management.jmxremote.authenticate=false \
+  -Dcom.sun.management.jmxremote.ssl=false \
+  BusyApp
